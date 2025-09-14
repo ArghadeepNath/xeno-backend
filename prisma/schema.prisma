@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// New User model
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String   // hashed with bcrypt
+  stores    Store[]
+  createdAt DateTime @default(now())
+}
+
+// Store (Tenant renamed → Store, linked to User)
+model Store {
+  id        Int       @id @default(autoincrement())
+  name      String
+  storeUrl  String
+  apiToken  String
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  customers Customer[]
+  orders    Order[]
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Customer {
+  id        Int       @id @default(autoincrement())
+  shopifyId String    @unique
+  name      String
+  email     String
+  storeId   Int
+  store     Store     @relation(fields: [storeId], references: [id])
+  orders    Order[]
+}
+
+model Order {
+  id         Int       @id @default(autoincrement())
+  shopifyId  String    @unique
+  total      Float
+  createdAt  DateTime
+  storeId    Int
+  store      Store     @relation(fields: [storeId], references: [id])
+  customerId Int?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+}
+
+model Product {
+  id        Int    @id @default(autoincrement())
+  shopifyId String @unique
+  title     String
+  price     Float
+  storeId   Int
+  store     Store  @relation(fields: [storeId], references: [id])
+}ok
