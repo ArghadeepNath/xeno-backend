@@ -12,7 +12,7 @@ app.use(express.json());
 const cors = require("cors");
 
 app.use(cors({
-  origin: "https://xeno-frontend-seven.vercel.app/",
+  origin: "https://xeno-frontend-seven.vercel.app",
   credentials: true,
 }));
 
