@@ -58,4 +58,4 @@ model Product {
   price     Float
   storeId   Int
   store     Store  @relation(fields: [storeId], references: [id])
-}ok
+}
