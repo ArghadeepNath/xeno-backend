@@ -12,7 +12,7 @@ app.use(express.json());
 const cors = require("cors");
 
 app.use(cors({
-  origin: "http://localhost:3001",
+  origin: "https://xeno-frontend-seven.vercel.app/",
   credentials: true,
 }));
 
