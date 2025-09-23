@@ -11,10 +11,15 @@ const prisma = new PrismaClient();
 app.use(express.json());
 const cors = require("cors");
 
-app.use(cors({
+const corsOptions = {
   origin: "https://xeno-frontend-seven.vercel.app",
   credentials: true,
-}));
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 
 const JWT_SECRET = process.env.JWT_SECRET || "supersecret";
 
